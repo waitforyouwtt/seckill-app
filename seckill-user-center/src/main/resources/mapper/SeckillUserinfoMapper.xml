@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidiandian.dao.SeckillUserinfoDao">
+
+    <resultMap type="com.yidiandian.entity.SeckillUserinfo" id="SeckillUserinfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="idCard" column="id_card" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="INTEGER"/>
+        <result property="weChat" column="we_chat" jdbcType="VARCHAR"/>
+        <result property="qq" column="qq" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="telPhone" column="tel_phone" jdbcType="VARCHAR"/>
+        <result property="homeAddress" column="home_address" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SeckillUserinfoMap">
+        select
+          id, user_id, user_name, nick_name, password, id_card, age, birthday, gender, we_chat, qq, phone, tel_phone, home_address, status, create_time, update_time
+        from seckill_db.seckill_userinfo
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SeckillUserinfoMap">
+        select
+          id, user_id, user_name, nick_name, password, id_card, age, birthday, gender, we_chat, qq, phone, tel_phone, home_address, status, create_time, update_time
+        from seckill_db.seckill_userinfo
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SeckillUserinfoMap">
+        select
+          id, user_id, user_name, nick_name, password, id_card, age, birthday, gender, we_chat, qq, phone, tel_phone, home_address, status, create_time, update_time
+        from seckill_db.seckill_userinfo
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="idCard != null and idCard != ''">
+                and id_card = #{idCard}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="weChat != null and weChat != ''">
+                and we_chat = #{weChat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="telPhone != null and telPhone != ''">
+                and tel_phone = #{telPhone}
+            </if>
+            <if test="homeAddress != null and homeAddress != ''">
+                and home_address = #{homeAddress}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into seckill_db.seckill_userinfo(user_id, user_name, nick_name, password, id_card, age, birthday, gender, we_chat, qq, phone, tel_phone, home_address, status, create_time, update_time)
+        values (#{userId}, #{userName}, #{nickName}, #{password}, #{idCard}, #{age}, #{birthday}, #{gender}, #{weChat}, #{qq}, #{phone}, #{telPhone}, #{homeAddress}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_db.seckill_userinfo
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="idCard != null and idCard != ''">
+                id_card = #{idCard},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="weChat != null and weChat != ''">
+                we_chat = #{weChat},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="telPhone != null and telPhone != ''">
+                tel_phone = #{telPhone},
+            </if>
+            <if test="homeAddress != null and homeAddress != ''">
+                home_address = #{homeAddress},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_db.seckill_userinfo where id = #{id}
+    </delete>
+
+</mapper>

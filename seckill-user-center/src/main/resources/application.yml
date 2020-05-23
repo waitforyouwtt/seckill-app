@@ -1,0 +1,44 @@
+#数据库连接池
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dev?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: com.yidiandian.entity
+
+#服务名称
+  application:
+    name: seckill-user-center
+
+#服务端口
+server:
+  port: 8762
+
+#注册中心地址[多个配置中心，中间用逗号分开]
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/ # ,http://127.0.0.1:8762/eureka/
+
+#MD5 密钥
+md5:
+  private:
+    key: seckillabcd1234efjhijklmn5678
+
+aes:
+  private:
+    key: seckillabcd1234e
+
+des:
+  private:
+    key: seckillabcd1234e
+
+seckill:
+  private:
+    key: MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAI/0QBPodcbZIGj2EBh6KKrNAIR0iTAzqLY6ormoEEVXdW69aMctrFgz3R7tLH/PhsvS43uwZ3J91a9DZ3ut/S4m0XNgQX5vWFXHUawz4U6+IF1h2FNrBxN6MJSFDe4E2BkMK4Of1SntqjZxfCY1SklJNy/azW9tLvMBRSRSOPsFAgMBAAECgYACi7hCYd8LWDWphYh9VlO3yY5TyVfPwWofZuQP0ngPMd/CyJi8xQMCQFCNxnX+AKaKnj0lp9X8gVsxEUkYN9h9XKSvqluCYaaAneGf++WcuBSqliY+RhcqgHlOEcKtjJDVSEdOuyNQYe6R6pJm+PQ7+IkVgC5Ed3v8Pi97JTxUwQJBAM/Rf1eJrJsLbMTe75t8wkJenxD2nQhI4AbD9KEFoeAMJsUCWxszd/jH16gLd4qsKqqSnHAJ0SFyC4CkxnCiEzUCQQCxVELg68i86a0Q+Q/AdhVGqRQO4EsvZtKQZvuKob2fTPlSS50LW8g2DerLIwh8aHZcJVdHeXsChtlUEdNztPKRAkARCa70AVCKYZRoS5K/X6oZgOJvpJhZPohHZbdfoDOWR8jB7CCGCWEzn0a5+z6wus7Ar0ZuFQ/1OwFgaaHvSAplAkAkTbTXaU4SZuCYjfTMmSAn9Ct4FDEwRiOrjnnG2vAAMfkFARfooGSvtE+yQLzXA2ff24Evz84AKW1Kyc95a70RAkAvoN3mMWl1Ce7YaSyE5moFkLB2rd6mMZEa1408u82zyC0CzN6kK+wQ4wK9Q/CNUhC+y/BtR2KecAomGjjfoFw/
+  public:
+    key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCP9EAT6HXG2SBo9hAYeiiqzQCEdIkwM6i2OqK5qBBFV3VuvWjHLaxYM90e7Sx/z4bL0uN7sGdyfdWvQ2d7rf0uJtFzYEF+b1hVx1GsM+FOviBdYdhTawcTejCUhQ3uBNgZDCuDn9Up7ao2cXwmNUpJSTcv2s1vbS7zAUUkUjj7BQIDAQAB
