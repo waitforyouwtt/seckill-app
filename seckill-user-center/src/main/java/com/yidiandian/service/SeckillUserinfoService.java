@@ -1,6 +1,7 @@
 package com.yidiandian.service;
 
 import com.yidiandian.entity.SeckillUserinfo;
+import com.yidiandian.request.SeckillLoginRequest;
 import com.yidiandian.request.SeckillUserinfoRequest;
 import entity.ResponseResult;
 
@@ -69,4 +70,10 @@ public interface SeckillUserinfoService {
      */
     SeckillUserinfo queryByParams(SeckillUserinfoRequest userinfoRequest);
 
+    /**
+     * 用户登录
+     * @param seckillLoginRequest
+     * @return
+     */
+    ResponseResult login(SeckillLoginRequest seckillLoginRequest);
 }

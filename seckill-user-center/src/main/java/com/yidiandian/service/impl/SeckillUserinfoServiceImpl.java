@@ -8,6 +8,7 @@ import com.utils.Md5Util;
 import com.yidiandian.dao.SeckillUserinfoDao;
 import com.yidiandian.entity.SeckillUserinfo;
 import com.yidiandian.enums.UserBusinessEnums;
+import com.yidiandian.request.SeckillLoginRequest;
 import com.yidiandian.request.SeckillUserinfoRequest;
 import com.yidiandian.service.SeckillUserinfoService;
 import entity.ResponseResult;
@@ -166,5 +167,25 @@ public class SeckillUserinfoServiceImpl implements SeckillUserinfoService {
             return null;
         }
         return userinfoList.get( 0 );
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param seckillLoginRequest
+     * @return
+     */
+    @Override
+    public ResponseResult login(SeckillLoginRequest seckillLoginRequest) {
+        SeckillUserinfoRequest userinfoRequest = new SeckillUserinfoRequest();
+        userinfoRequest.setUserName(seckillLoginRequest.getUserName());
+        SeckillUserinfo seckillUserinfo = queryByParams( userinfoRequest );
+        if (seckillUserinfo == null){
+            return ResponseResult.error( UserBusinessEnums.USER_DOES_NOT_EXIST.getCode(),UserBusinessEnums.USER_DOES_NOT_EXIST.getMessage(),null );
+        }
+        if (Md5Util.verify( seckillLoginRequest.getPassword(), md5Key,seckillUserinfo.getPassword())){
+            return ResponseResult.success( seckillUserinfo );
+        }
+        return ResponseResult.error( "用户密码错误" );
     }
 }

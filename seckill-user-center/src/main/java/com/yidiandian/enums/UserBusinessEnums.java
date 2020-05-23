@@ -18,7 +18,9 @@ public enum UserBusinessEnums {
 
     ID_CARD_NULL(1,"身份证号不能为空"),
     PARAMS_IS_ERROR(2,"请求参数值错误"),
-    USER_ALREADY_EXISTS( 10, "用户已存在，请勿重复注册" );
+    USER_ALREADY_EXISTS( 10, "用户已存在，请勿重复注册" ),
+    USER_DOES_NOT_EXIST(11,"用户不存在"),
+            ;
 
     private Integer code;
     private String message;
