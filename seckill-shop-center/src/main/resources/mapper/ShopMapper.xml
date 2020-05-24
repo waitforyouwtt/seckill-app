@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidiandian.dao.ShopDao">
+
+    <resultMap type="com.yidiandian.entity.Shop" id="ShopMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="merchantId" column="merchant_id" jdbcType="INTEGER"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="shopImage" column="shop_image" jdbcType="VARCHAR"/>
+        <result property="shopDescription" column="shop_description" jdbcType="VARCHAR"/>
+        <result property="shopBusinessScope" column="shop_business_scope" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="businessLicense" column="business_license" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ShopMap">
+        select
+          id, merchant_id, shop_name, shop_image, shop_description, shop_business_scope, province, city, area, business_license, status, create_time, update_time
+        from seckill_db.shop
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ShopMap">
+        select
+          id, merchant_id, shop_name, shop_image, shop_description, shop_business_scope, province, city, area, business_license, status, create_time, update_time
+        from seckill_db.shop
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ShopMap">
+        select
+          id, merchant_id, shop_name, shop_image, shop_description, shop_business_scope, province, city, area, business_license, status, create_time, update_time
+        from seckill_db.shop
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="merchantId != null">
+                and merchant_id = #{merchantId}
+            </if>
+            <if test="shopName != null and shopName != ''">
+                and shop_name = #{shopName}
+            </if>
+            <if test="shopImage != null and shopImage != ''">
+                and shop_image = #{shopImage}
+            </if>
+            <if test="shopDescription != null and shopDescription != ''">
+                and shop_description = #{shopDescription}
+            </if>
+            <if test="shopBusinessScope != null and shopBusinessScope != ''">
+                and shop_business_scope = #{shopBusinessScope}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="businessLicense != null and businessLicense != ''">
+                and business_license = #{businessLicense}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into seckill_db.shop(merchant_id, shop_name, shop_image, shop_description, shop_business_scope, province, city, area, business_license, status, create_time, update_time)
+        values (#{merchantId}, #{shopName}, #{shopImage}, #{shopDescription}, #{shopBusinessScope}, #{province}, #{city}, #{area}, #{businessLicense}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_db.shop
+        <set>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId},
+            </if>
+            <if test="shopName != null and shopName != ''">
+                shop_name = #{shopName},
+            </if>
+            <if test="shopImage != null and shopImage != ''">
+                shop_image = #{shopImage},
+            </if>
+            <if test="shopDescription != null and shopDescription != ''">
+                shop_description = #{shopDescription},
+            </if>
+            <if test="shopBusinessScope != null and shopBusinessScope != ''">
+                shop_business_scope = #{shopBusinessScope},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="businessLicense != null and businessLicense != ''">
+                business_license = #{businessLicense},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_db.shop where id = #{id}
+    </delete>
+
+</mapper>
