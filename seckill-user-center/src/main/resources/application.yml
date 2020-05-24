@@ -5,6 +5,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/dev?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: root
+# 格式化日期
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
