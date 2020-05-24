@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidiandian.dao.ProductDetailDao">
+
+    <resultMap type="com.yidiandian.entity.ProductDetail" id="ProductDetailMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="productPalce" column="product_palce" jdbcType="VARCHAR"/>
+        <result property="productBrand" column="product_brand" jdbcType="VARCHAR"/>
+        <result property="productDecsrption" column="product_decsrption" jdbcType="VARCHAR"/>
+        <result property="productWeight" column="product_weight" jdbcType="DOUBLE"/>
+        <result property="productDetailPcitureUrl" column="product_detail_pciture_url" jdbcType="VARCHAR"/>
+        <result property="specificationPack" column="specification_pack" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProductDetailMap">
+        select
+          id, product_id, product_palce, product_brand, product_decsrption, product_weight, product_detail_pciture_url, specification_pack, create_time, update_time
+        from seckill_db.product_detail
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ProductDetailMap">
+        select
+          id, product_id, product_palce, product_brand, product_decsrption, product_weight, product_detail_pciture_url, specification_pack, create_time, update_time
+        from seckill_db.product_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ProductDetailMap">
+        select
+          id, product_id, product_palce, product_brand, product_decsrption, product_weight, product_detail_pciture_url, specification_pack, create_time, update_time
+        from seckill_db.product_detail
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="productPalce != null and productPalce != ''">
+                and product_palce = #{productPalce}
+            </if>
+            <if test="productBrand != null and productBrand != ''">
+                and product_brand = #{productBrand}
+            </if>
+            <if test="productDecsrption != null and productDecsrption != ''">
+                and product_decsrption = #{productDecsrption}
+            </if>
+            <if test="productWeight != null">
+                and product_weight = #{productWeight}
+            </if>
+            <if test="productDetailPcitureUrl != null and productDetailPcitureUrl != ''">
+                and product_detail_pciture_url = #{productDetailPcitureUrl}
+            </if>
+            <if test="specificationPack != null and specificationPack != ''">
+                and specification_pack = #{specificationPack}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into seckill_db.product_detail(product_id, product_palce, product_brand, product_decsrption, product_weight, product_detail_pciture_url, specification_pack, create_time, update_time)
+        values (#{productId}, #{productPalce}, #{productBrand}, #{productDecsrption}, #{productWeight}, #{productDetailPcitureUrl}, #{specificationPack}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_db.product_detail
+        <set>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="productPalce != null and productPalce != ''">
+                product_palce = #{productPalce},
+            </if>
+            <if test="productBrand != null and productBrand != ''">
+                product_brand = #{productBrand},
+            </if>
+            <if test="productDecsrption != null and productDecsrption != ''">
+                product_decsrption = #{productDecsrption},
+            </if>
+            <if test="productWeight != null">
+                product_weight = #{productWeight},
+            </if>
+            <if test="productDetailPcitureUrl != null and productDetailPcitureUrl != ''">
+                product_detail_pciture_url = #{productDetailPcitureUrl},
+            </if>
+            <if test="specificationPack != null and specificationPack != ''">
+                specification_pack = #{specificationPack},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_db.product_detail where id = #{id}
+    </delete>
+
+</mapper>
