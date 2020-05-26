@@ -16,7 +16,7 @@ mybatis:
 
 #服务名称
   application:
-    name: seckill-user-center
+    name: seckillUserCenter
 
 #服务端口
 server:

@@ -12,6 +12,7 @@
     <modules>
     <module>eureka-server-center</module>
         <module>seckill-common</module>
+        <module>seckill-product-center</module>
     </modules>
 
     <properties>

@@ -1,4 +1,3 @@
-
 #数据库连接池
 spring:
   datasource:
@@ -18,11 +17,11 @@ mybatis:
 
   #服务名称
   #application:
-    #name: seckillMerchantCenter
+    #name: seckillProductActionCenter
 
 #服务端口
 server:
-  port: 8763
+  port: 8767
 
 #注册中心地址[多个配置中心，中间用逗号分开]
 eureka:
@@ -30,7 +29,3 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/ # ,http://127.0.0.1:8762/eureka/
 
-#MD5 密钥
-md5:
-  private:
-    key: seckillabcd1234efjhijklmn5678
