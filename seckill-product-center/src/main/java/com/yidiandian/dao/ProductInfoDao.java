@@ -64,4 +64,11 @@ public interface ProductInfoDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 通过id集合查询商品信息
+     * @param ids
+     * @return
+     */
+    List<ProductInfo> queryByIds(@Param( "ids" )List<String> ids);
+
 }

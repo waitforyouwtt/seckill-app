@@ -1,5 +1,6 @@
 package com.yidiandian.service.impl;
 
+import com.google.common.base.Splitter;
 import com.yidiandian.entity.ProductDetail;
 import com.yidiandian.entity.ProductInfo;
 import com.yidiandian.dao.ProductInfoDao;
@@ -136,7 +137,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
      * @return
      */
     @Override
-    public ResponseResult queryProduct(ProductInfoRequest productInfoRequest) {
+    public ResponseResult queryProductList(ProductInfoRequest productInfoRequest) {
         ProductInfo productInfo = new ProductInfo();
         BeanCopier beanCopier = BeanCopier.create( ProductInfoRequest.class,ProductInfo.class,false );
         beanCopier.copy( productInfoRequest,productInfo,null );
@@ -163,5 +164,17 @@ public class ProductInfoServiceImpl implements ProductInfoService {
         productInfo.setUpdateTime( new Date(  ) );
         productinfoDao.update( productInfo );
         return ResponseResult.success(productInfo);
+    }
+
+    /**
+     * 根据id查询商品信息
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult queryProductByIds(String ids) {
+        List<String> idList = Splitter.on(",").trimResults().splitToList(ids);
+        return ResponseResult.success( productinfoDao.queryByIds(idList  ) );
     }
 }

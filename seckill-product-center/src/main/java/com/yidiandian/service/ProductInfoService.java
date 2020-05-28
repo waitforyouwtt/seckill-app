@@ -75,7 +75,7 @@ public interface ProductInfoService {
      * @param productInfoRequest
      * @return
      */
-    ResponseResult queryProduct(ProductInfoRequest productInfoRequest);
+    ResponseResult queryProductList(ProductInfoRequest productInfoRequest);
 
     /**
      * 商品上下架
@@ -84,4 +84,11 @@ public interface ProductInfoService {
      * @return
      */
     ResponseResult upOrDownProduct(int id, int state);
+
+    /**
+     * 根据id查询商品信息
+     * @param ids
+     * @return
+     */
+    ResponseResult queryProductByIds(String ids);
 }

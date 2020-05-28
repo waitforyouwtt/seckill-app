@@ -144,4 +144,15 @@
         delete from seckill_db.product_info where id = #{id}
     </delete>
 
+    <!--通过id集合查询商品信息-->
+    <select id="queryByIds" resultMap="ProductinfoMap">
+        select
+        id, product_title, product_name, product_picture_url, product_price, product_discounts, mechant_id,
+        product_type_id, product_inventory, shop_id, state, approve_time, create_time, update_time
+        from seckill_db.product_info where id in
+        <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

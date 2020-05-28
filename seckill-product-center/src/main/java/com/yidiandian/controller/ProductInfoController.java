@@ -35,15 +35,21 @@ public class ProductInfoController {
         return productInfoService.addProductDetail(productDetailRequest);
     }
 
-    @ApiOperation( value = "查询商品详情信息",notes = "",tags = {"商品信息信息操作"})
-    @PostMapping("/query-product")
+    @ApiOperation( value = "查询商品集合信息",notes = "",tags = {"商品信息信息操作"})
+    @PostMapping("/query-productList")
     public ResponseResult queryProduct(@RequestBody ProductInfoRequest productInfoRequest){
-        return productInfoService.queryProduct(productInfoRequest);
+        return productInfoService.queryProductList(productInfoRequest);
     }
 
     @ApiOperation( value = "商品上下架操作",notes = "",tags = {"商品信息信息操作"})
     @PostMapping("/up-down-product")
     public ResponseResult upOrDownProduct(@RequestParam("id") int id, @RequestParam("state") int state){
         return productInfoService.upOrDownProduct(id,state);
+    }
+
+    @ApiOperation( value = "根据ids查询商品信息",notes = "",tags = {"商品信息信息操作"})
+    @PostMapping("/query-productByIds")
+    public ResponseResult queryProductByIds(@RequestParam("ids") String ids){
+        return productInfoService.queryProductByIds(ids);
     }
 }

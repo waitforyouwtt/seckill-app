@@ -38,12 +38,12 @@ public class ProductFeignService {
     @ApiOperation( value = "查询商品集合信息",notes = "",tags = {"商品信息信息操作"})
     @PostMapping("/feign/query-productList")
     public ResponseResult feignQueryProductList(@RequestBody ProductInfoRequest productInfoRequest){
-        return productInfoService.queryProduct(productInfoRequest);
+        return productInfoService.queryProductList(productInfoRequest);
     }
 
-    @ApiOperation( value = "商品上下架操作",notes = "",tags = {"商品信息信息操作"})
-    @PostMapping("/feign/up-down-product")
-    public ResponseResult feignUpOrDownProduct(@RequestParam("id") int id, @RequestParam("state") int state){
-        return productInfoService.upOrDownProduct(id,state);
+    @ApiOperation( value = "根据ids查询商品信息",notes = "",tags = {"商品信息信息操作"})
+    @PostMapping("/feign/query-productByIds")
+    public ResponseResult feignQueryProductByIds(@RequestParam("ids") String ids){
+        return productInfoService.queryProductByIds(ids);
     }
 }

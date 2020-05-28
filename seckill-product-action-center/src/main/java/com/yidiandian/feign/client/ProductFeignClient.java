@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ProductFeignClient {
 
     @PostMapping("/feign/query-productList")
-    public ResponseResult feignQueryProductList(@RequestBody ProductInfoRequest productInfoRequest);
+    ResponseResult feignQueryProductList(@RequestBody ProductInfoRequest productInfoRequest);
 
-    @ApiOperation( value = "商品上下架操作",notes = "",tags = {"商品信息信息操作"})
-    @PostMapping("/feign/up-down-product")
-    public ResponseResult feignUpOrDownProduct(@RequestParam("id") int id, @RequestParam("state") int state);
+    @PostMapping("/feign/query-productByIds")
+    ResponseResult feignQueryProductByIds(@RequestParam("ids") String ids);
+
 }

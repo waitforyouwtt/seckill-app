@@ -158,4 +158,13 @@
         delete from seckill_db.seckill_product where id = #{id}
     </delete>
 
+    <!--批量操作状态-->
+    <update id="batchUpdateStatus">
+        update seckill_db.seckill_product set state = #{state},approve_time = now(),update_time = now()
+        where id in
+        <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
 </mapper>

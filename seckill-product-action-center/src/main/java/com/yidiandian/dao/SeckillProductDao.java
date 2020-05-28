@@ -64,4 +64,11 @@ public interface SeckillProductDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 批量操作状态
+     * @param ids
+     * @param state
+     * @return
+     */
+    int batchUpdateStatus(@Param( "ids" ) List<String> ids,@Param( "state" ) int state);
 }

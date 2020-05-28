@@ -1,6 +1,9 @@
 package com.yidiandian.service;
 
 import com.yidiandian.entity.SeckillProduct;
+import com.yidiandian.request.SeckillProductRequest;
+import entity.ResponseResult;
+
 import java.util.List;
 
 /**
@@ -52,4 +55,18 @@ public interface SeckillProductService {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * 秒杀商品上下架操作
+     * @param ids
+     * @param state
+     * @return
+     */
+    ResponseResult upDownSeckillProduct(List<String> ids ,int state);
+
+    /**
+     * 创建秒杀商品信息
+     * @param seckillProductRequest
+     * @return
+     */
+    ResponseResult addSeckillProduct(SeckillProductRequest seckillProductRequest);
 }

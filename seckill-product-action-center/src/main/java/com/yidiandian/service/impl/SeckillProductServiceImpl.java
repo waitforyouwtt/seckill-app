@@ -2,11 +2,17 @@ package com.yidiandian.service.impl;
 
 import com.yidiandian.entity.SeckillProduct;
 import com.yidiandian.dao.SeckillProductDao;
+import com.yidiandian.request.SeckillProductRequest;
 import com.yidiandian.service.SeckillProductService;
+import entity.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,5 +83,43 @@ public class SeckillProductServiceImpl implements SeckillProductService {
     @Override
     public boolean deleteById(Integer id) {
         return this.seckillProductDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 秒杀商品上下架操作
+     *
+     * @param ids
+     * @param state
+     * @return
+     */
+    @Override
+    public ResponseResult upDownSeckillProduct(List<String> ids, int state) {
+        return ResponseResult.success(seckillProductDao.batchUpdateStatus(ids,state));
+    }
+
+    /**
+     * 创建秒杀商品信息
+     *
+     * @param seckillProductRequest
+     * @return
+     */
+    @Override
+    public ResponseResult addSeckillProduct(SeckillProductRequest seckillProductRequest) {
+
+        SeckillProduct seckillProduct = new SeckillProduct();
+        BeanCopier beanCopier = BeanCopier.create(SeckillProductRequest.class,SeckillProduct.class,false  );
+        beanCopier.copy( seckillProductRequest,seckillProduct,null );
+        seckillProduct.setApproveTime( new Date(  ) );
+        try {
+            seckillProduct.setStartTime( DateUtils.parseDate( seckillProductRequest.getStartTime(),"yyyy-MM-dd hh:mm:ss" )  );
+            seckillProduct.setEndTime( DateUtils.parseDate( seckillProductRequest.getEndTime(),"yyyy-MM-dd hh:mm:ss" ) );
+        } catch (ParseException e) {
+            log.error( "日期转换错误：{}",e.getMessage() );
+        }
+        seckillProduct.setState( 0 );
+        seckillProduct.setCreateTime( new Date(  ) );
+        seckillProduct.setUpdateTime( new Date(  ) );
+        seckillProductDao.insert( seckillProduct );
+        return ResponseResult.success(seckillProductRequest);
     }
 }
