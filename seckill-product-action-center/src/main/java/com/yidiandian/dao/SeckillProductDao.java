@@ -71,4 +71,13 @@ public interface SeckillProductDao {
      * @return
      */
     int batchUpdateStatus(@Param( "ids" ) List<String> ids,@Param( "state" ) int state);
+
+    void updateSeckillInfoBySeckNum(SeckillProduct seckillProductUpdate);
+
+    /**
+     * 根据商品id 查询商品信息
+     * @param productId
+     * @return
+     */
+   // SeckillProduct findSeckillProductById(int productId);
 }

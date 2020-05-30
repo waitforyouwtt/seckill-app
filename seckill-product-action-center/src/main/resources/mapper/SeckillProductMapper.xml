@@ -167,4 +167,14 @@
         </foreach>
     </update>
 
+    <update id="updateSeckillInfoBySeckNum">
+        update seckill_db.seckill_product set seckill_num = #{seckillNum} where id = #{id}
+    </update>
+
+    <!--<select id="findSeckillProductById" resultMap="SeckillProductMap">
+        select
+          id, product_id, seckill_num, seckill_price, seckill_inventory, start_time, end_time, shop_id, state, product_price, product_title, product_name, approve_time, seckill_version, create_time, update_time
+        from seckill_db.seckill_product
+    </select>-->
+
 </mapper>

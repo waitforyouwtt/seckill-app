@@ -26,25 +26,25 @@ public class SeckillProductController {
     @Autowired
     SeckillProductService seckillProductService;
 
-    @ApiOperation( value = "商品上下架操作",notes = "",tags = {"商品信息信息操作"})
+    @ApiOperation( value = "商品上下架操作",notes = "",tags = {"商品信息操作"})
     @PostMapping("/querySeckillProductList")
     public ResponseResult querySeckillProductList(@RequestBody ProductInfoRequest productInfoRequest){
         return productFeignClient.feignQueryProductList( productInfoRequest );
     }
 
-    @ApiOperation( value = "根据ids查询商品信息",notes = "",tags = {"商品信息信息操作"})
+    @ApiOperation( value = "根据ids查询商品信息",notes = "",tags = {"商品信息操作"})
     @PostMapping("/feign/query-productByIds")
     public ResponseResult queryProductByIds(@RequestParam("ids") String ids){
         return productFeignClient.feignQueryProductByIds( ids );
     }
 
-    @ApiOperation( value = "创建秒杀商品信息",notes = "",tags = {"商品信息信息操作"})
+    @ApiOperation( value = "创建秒杀商品信息",notes = "",tags = {"商品信息操作"})
     @PostMapping("/add-seckill-product")
     public ResponseResult addSeckillProduct(@RequestBody SeckillProductRequest seckillProductRequest){
         return seckillProductService.addSeckillProduct(seckillProductRequest);
     }
 
-    @ApiOperation( value = "秒杀商品上下架操作",notes = "",tags = {"商品信息信息操作"})
+    @ApiOperation( value = "秒杀商品上下架操作",notes = "",tags = {"商品信息操作"})
     @PostMapping("/upDownSeckillProduct")
     public ResponseResult upDownSeckillProduct(@RequestParam("ids") List<String> ids, @RequestParam("state") int state){
         return seckillProductService.upDownSeckillProduct(ids,state);

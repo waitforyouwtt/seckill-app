@@ -16,6 +16,13 @@ public class ResponseResult<T> {
 
     public ResponseResult() {
     }
+    public static <T> ResponseResult<T> success(Integer code,String message,T data) {
+        ResponseResult<T> response = new ResponseResult();
+        response.setCode(code);
+        response.setMessage(message);
+        response.setData(data);
+        return response;
+    }
     public static <T> ResponseResult<T> success(T data) {
         ResponseResult<T> response = new ResponseResult();
         response.setCode( CommonEnums.SUCCESS.getCode());
