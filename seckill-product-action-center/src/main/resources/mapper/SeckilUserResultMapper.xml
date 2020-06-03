@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidiandian.dao.SeckilUserResultDao">
+
+    <resultMap type="com.yidiandian.entity.SeckilUserResult" id="SeckilUserResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="seckillId" column="seckill_id" jdbcType="INTEGER"/>
+        <result property="resultStatus" column="result_status" jdbcType="INTEGER"/>
+        <result property="resultData" column="result_data" jdbcType="VARCHAR"/>
+        <result property="seckilTime" column="seckil_time" jdbcType="TIMESTAMP"/>
+        <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SeckilUserResultMap">
+        select
+          id, user_id, product_id, seckill_id, result_status, result_data, seckil_time, order_id, create_time, update_time
+        from seckill_db.seckil_user_result
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SeckilUserResultMap">
+        select
+          id, user_id, product_id, seckill_id, result_status, result_data, seckil_time, order_id, create_time, update_time
+        from seckill_db.seckil_user_result
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SeckilUserResultMap">
+        select
+          id, user_id, product_id, seckill_id, result_status, result_data, seckil_time, order_id, create_time, update_time
+        from seckill_db.seckil_user_result
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="seckillId != null">
+                and seckill_id = #{seckillId}
+            </if>
+            <if test="resultStatus != null">
+                and result_status = #{resultStatus}
+            </if>
+            <if test="resultData != null and resultData != ''">
+                and result_data = #{resultData}
+            </if>
+            <if test="seckilTime != null">
+                and seckil_time = #{seckilTime}
+            </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into seckill_db.seckil_user_result(user_id, product_id, seckill_id, result_status, result_data, seckil_time, order_id, create_time, update_time)
+        values (#{userId}, #{productId}, #{seckillId}, #{resultStatus}, #{resultData}, #{seckilTime}, #{orderId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_db.seckil_user_result
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="seckillId != null">
+                seckill_id = #{seckillId},
+            </if>
+            <if test="resultStatus != null">
+                result_status = #{resultStatus},
+            </if>
+            <if test="resultData != null and resultData != ''">
+                result_data = #{resultData},
+            </if>
+            <if test="seckilTime != null">
+                seckil_time = #{seckilTime},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_db.seckil_user_result where id = #{id}
+    </delete>
+
+</mapper>

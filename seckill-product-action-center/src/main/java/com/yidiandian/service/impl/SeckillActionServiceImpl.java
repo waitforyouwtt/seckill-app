@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -27,6 +28,11 @@ public class SeckillActionServiceImpl implements SeckillActionService {
     private SeckillProductDao seckillProductDao;
 
     private Lock lock = new ReentrantLock(  );
+
+    private static final String Inventory = "Inventory";
+    private static final String Seckillnum = "Seckillnum";
+
+    private ConcurrentHashMap<String,Integer> cacheMap = new ConcurrentHashMap<>(  );
 
     /**
      * 通过程序锁进行秒杀
@@ -84,5 +90,28 @@ public class SeckillActionServiceImpl implements SeckillActionService {
         seckillProductUpdate.setSeckillNum( seckillnum );
         seckillProductDao.updateSeckillInfoBySeckNum(seckillProductUpdate);
         return ResponseResult.success(SeckillProductActionBusinessEnum.SECKILL_SUCCESS.getCode(),SeckillProductActionBusinessEnum.SECKILL_SUCCESS.getMessage(),null);
+    }
+
+    /**
+     * 通过多线程进行秒杀操作
+     *
+     * @param userId
+     * @param id
+     * @return
+     */
+    @Override
+    public void multiThread(int userId, int id) {
+       Integer inventoryNum =  cacheMap.get( Inventory+id );
+       if (inventoryNum == null){
+           SeckillProduct seckillProduct = seckillProductDao.queryById( id );
+           cacheMap.put(Inventory+id,Integer.valueOf(seckillProduct.getSeckillInventory()+""));
+           cacheMap.put(Seckillnum+id,seckillProduct.getSeckillNum());
+       }
+        inventoryNum = cacheMap.get(Inventory+id);//库存
+        Integer seckillnum = cacheMap.get(Seckillnum+id);//秒杀数量
+        seckillnum++;
+        cacheMap.put(Seckillnum+id,seckillnum);
+        //用户名 ，秒杀数量 ，库存，商品ID
+        new Thread( new SeckillThread(userId,seckillnum,inventoryNum,id) ).start();
     }
 }

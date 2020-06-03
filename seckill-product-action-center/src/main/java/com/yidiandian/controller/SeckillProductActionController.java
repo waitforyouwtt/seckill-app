@@ -31,4 +31,10 @@ public class SeckillProductActionController {
     public ResponseResult procedureLockByAOP(@RequestParam("userId") int userId,@RequestParam("id") int id){
         return seckillActionService.procedureLockByAOP( userId,id );
     }
+
+    @ApiOperation( value = "通过多线程进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping("/multiThread")
+    public void multiThread(@RequestParam("userId") int userId,@RequestParam("id") int id){
+        seckillActionService.multiThread(userId,id);
+    }
 }

@@ -28,4 +28,12 @@ public interface SeckillActionService {
      * @return
      */
     ResponseResult procedureLockByAOP(int userId,int id);
+
+    /**
+     * 通过多线程进行秒杀操作
+     * @param userId
+     * @param id
+     * @return
+     */
+    void multiThread(int userId, int id);
 }
