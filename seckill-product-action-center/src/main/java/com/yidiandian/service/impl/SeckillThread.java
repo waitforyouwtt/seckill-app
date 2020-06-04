@@ -1,10 +1,10 @@
 package com.yidiandian.service.impl;
 
+import com.yidiandian.applicationContext.BeanContext;
 import com.yidiandian.dao.SeckilUserResultDao;
 import com.yidiandian.dao.SeckillProductDao;
 import com.yidiandian.entity.SeckilUserResult;
 import com.yidiandian.entity.SeckillProduct;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
@@ -21,11 +21,9 @@ public class SeckillThread implements Runnable{
     private int inventorynum;
     private int id;
 
-    @Autowired
-    SeckillProductDao seckillProductDao;
+    private SeckillProductDao seckillProductDao;
 
-    @Autowired
-    SeckilUserResultDao seckilUserResultDao;
+    private SeckilUserResultDao seckilUserResultDao;
 
     public SeckillThread(int userid,int seckillnum,int inventorynum,int id){
         this.inventorynum = inventorynum;
@@ -37,13 +35,18 @@ public class SeckillThread implements Runnable{
     @Override
     public void run() {
         SeckilUserResult seckilUserResult = new SeckilUserResult();
+        this.seckillProductDao = BeanContext.getApplicationContext().getBean(SeckillProductDao.class);
+
         SeckillProduct seckillProduct = seckillProductDao.queryById( id );
+
         seckilUserResult.setProductId(seckillProduct.getProductId());
         seckilUserResult.setSeckillId(seckillProduct.getId());
         seckilUserResult.setUserId(userid);
         seckilUserResult.setResultStatus(0);
         seckilUserResult.setResultData("用户"+userid+"秒杀成功！！");
         seckilUserResult.setSeckilTime(new Date());
+        seckilUserResult.setCreateTime( new Date(  ) );
+        seckilUserResult.setUpdateTime( new Date(  ) );
         if(seckillnum > inventorynum){
             System.out.println("用户"+userid+"秒杀失败");
             seckilUserResult.setResultStatus(1);
@@ -54,6 +57,7 @@ public class SeckillThread implements Runnable{
             seckillProductInfoUpate.setSeckillNum(seckillnum);
             seckillProductDao.updateSeckillInfoBySeckNum(seckillProductInfoUpate);
         }
+        this.seckilUserResultDao = BeanContext.getApplicationContext().getBean(SeckilUserResultDao.class);
         //保存秒杀结果表
         seckilUserResultDao.insert(seckilUserResult);
     }
