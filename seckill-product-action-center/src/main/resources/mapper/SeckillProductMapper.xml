@@ -171,10 +171,14 @@
         update seckill_db.seckill_product set seckill_num = #{seckillNum} where id = #{id}
     </update>
 
-    <!--<select id="findSeckillProductById" resultMap="SeckillProductMap">
+    <update id="updateSeckillInfoByVersion">
+        update seckill_db.seckill_product set seckill_num = #{seckillNum},seckill_version = #{seckillVersion}+1 where id = #{id} and seckill_version = #{seckillVersion}
+    </update>
+
+    <select id="selectForUpdate" resultMap="SeckillProductMap">
         select
           id, product_id, seckill_num, seckill_price, seckill_inventory, start_time, end_time, shop_id, state, product_price, product_title, product_name, approve_time, seckill_version, create_time, update_time
-        from seckill_db.seckill_product
-    </select>-->
+        from seckill_db.seckill_product where id =#{id} for update
+    </select>
 
 </mapper>

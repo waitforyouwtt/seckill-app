@@ -34,11 +34,10 @@ public class SeckillThread implements Runnable{
 
     @Override
     public void run() {
-        SeckilUserResult seckilUserResult = new SeckilUserResult();
         this.seckillProductDao = BeanContext.getApplicationContext().getBean(SeckillProductDao.class);
-
         SeckillProduct seckillProduct = seckillProductDao.queryById( id );
 
+        SeckilUserResult seckilUserResult = new SeckilUserResult();
         seckilUserResult.setProductId(seckillProduct.getProductId());
         seckilUserResult.setSeckillId(seckillProduct.getId());
         seckilUserResult.setUserId(userid);

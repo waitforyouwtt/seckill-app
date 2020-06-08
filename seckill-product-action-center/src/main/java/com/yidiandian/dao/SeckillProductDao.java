@@ -75,9 +75,12 @@ public interface SeckillProductDao {
     void updateSeckillInfoBySeckNum(SeckillProduct seckillProductUpdate);
 
     /**
-     * 根据商品id 查询商品信息
-     * @param productId
+     * 修改数据
+     * @param seckillProductInfoUpate
      * @return
      */
-   // SeckillProduct findSeckillProductById(int productId);
+    int updateSeckillInfoByVersion(SeckillProduct seckillProductInfoUpate);
+
+    SeckillProduct selectForUpdate(@Param( "id" ) int id);
+
 }

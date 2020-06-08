@@ -36,4 +36,27 @@ public interface SeckillActionService {
      * @return
      */
     void multiThread(int userId, int id);
+
+    /**
+     * 通过乐观锁进行秒杀
+     * @param userId
+     * @param id
+     * @return
+     */
+    ResponseResult optimisticLock(int userId, int id);
+
+    /**
+     * 通过悲观锁进行秒杀
+     * @param userid
+     * @param id
+     * @return
+     */
+    ResponseResult pessimismLock(int userid, int id);
+
+    /**
+     * 通过队列来实现多线程高并发进行秒杀
+     * @param userid
+     * @param id
+     */
+    void queueAndThread(int userid, int id);
 }

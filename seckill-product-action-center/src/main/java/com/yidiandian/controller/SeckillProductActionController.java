@@ -37,4 +37,23 @@ public class SeckillProductActionController {
     public void multiThread(@RequestParam("userId") int userId,@RequestParam("id") int id){
         seckillActionService.multiThread(userId,id);
     }
+
+    @ApiOperation( value = "通过乐观锁进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping("/optimisticLock")
+    public ResponseResult optimisticLock(@RequestParam("userId") int userId,@RequestParam("id") int id){
+       return seckillActionService.optimisticLock(userId,id);
+    }
+
+    @ApiOperation( value = "通过悲观锁进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping("/pessimismLock")
+    public ResponseResult pessimismLock(@RequestParam("userId") int userId,@RequestParam("id") int id){
+        return seckillActionService.pessimismLock(userId,id);
+    }
+
+    @ApiOperation( value = "通过队列来实现多线程高并发进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping("/queueAndThread")
+    public void queueAndThread(@RequestParam("userId") int userId,@RequestParam("id") int id){
+        seckillActionService.queueAndThread(userId,id);
+    }
+
 }
