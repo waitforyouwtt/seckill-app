@@ -56,4 +56,10 @@ public class SeckillProductActionController {
         seckillActionService.queueAndThread(userId,id);
     }
 
+    @ApiOperation( value = "通过redis来实现进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping("/redisDistributeLock")
+    public ResponseResult redisDistributeLock(@RequestParam("userId") int userId,@RequestParam("id") int id){
+       return seckillActionService.redisDistributeLock(userId,id);
+    }
+
 }

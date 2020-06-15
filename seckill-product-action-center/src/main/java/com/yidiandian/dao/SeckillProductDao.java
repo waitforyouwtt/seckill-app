@@ -72,7 +72,7 @@ public interface SeckillProductDao {
      */
     int batchUpdateStatus(@Param( "ids" ) List<String> ids,@Param( "state" ) int state);
 
-    void updateSeckillInfoBySeckNum(SeckillProduct seckillProductUpdate);
+    int updateSeckillInfoBySeckNum(SeckillProduct seckillProductUpdate);
 
     /**
      * 修改数据

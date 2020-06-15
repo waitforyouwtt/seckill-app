@@ -59,4 +59,12 @@ public interface SeckillActionService {
      * @param id
      */
     void queueAndThread(int userid, int id);
+
+    /**
+     * 通过redis来实现进行秒杀操作
+     * @param userId
+     * @param id
+     * @return
+     */
+    ResponseResult redisDistributeLock(int userId, int id);
 }

@@ -7,6 +7,7 @@ import com.yidiandian.entity.SeckillProduct;
 import com.yidiandian.enums.SeckillProductActionBusinessEnum;
 import com.yidiandian.request.QueueRequest;
 import com.yidiandian.service.SeckillActionService;
+import com.yidiandian.utils.RedisLockUtil;
 import entity.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -190,6 +193,70 @@ public class SeckillActionServiceImpl implements SeckillActionService {
             seckillQueue.put(queueRequest);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 通过redis来实现进行秒杀操作
+     *
+     * @param userId
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult redisDistributeLock(int userId, int id) {
+
+        Map<String,String> dataMap = new HashMap<String,String>();
+
+        boolean haslock = RedisLockUtil.tryGetDistributedLock(id+"",userId+"", 50000);
+
+        if(haslock){
+         processSeckill( id,dataMap );
+        }else{
+            boolean flag = false;
+            for(int i=0;i<3;i++){
+                haslock = RedisLockUtil.tryGetDistributedLock(id+"",userId+"", 50000);
+                if(haslock){
+                    processSeckill(id, dataMap);
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag){
+                dataMap.put("flag","fail");
+                dataMap.put("data","太火爆了，请重新抢购");
+            }
+        }
+
+        boolean releaseResult = RedisLockUtil.releaseDistributedLock(id+"",userId+"");
+        while (!releaseResult){
+            releaseResult = RedisLockUtil.releaseDistributedLock(id+"",userId+"");
+        }
+        return ResponseResult.success(dataMap);
+    }
+
+    private void processSeckill(int id,Map<String,String> dataMap){
+        SeckillProduct seckillProduct = seckillProductDao.queryById( id );
+        //库存
+        int seckillInventory = seckillProduct.getSeckillInventory();
+        //秒杀数量
+        int seckillnum = seckillProduct.getSeckillNum();
+        seckillnum++;
+        if (seckillnum > seckillInventory) {
+            dataMap.put("flag","fail");
+            dataMap.put("data","卖光了,谢谢惠顾！！");
+            return;
+        }
+        SeckillProduct seckillProductUpdate = new SeckillProduct();
+        seckillProductUpdate.setId( id );
+        seckillProductUpdate.setSeckillNum( seckillnum );
+        int updateResult = seckillProductDao.updateSeckillInfoBySeckNum(seckillProductUpdate);
+        if(updateResult>0){
+            dataMap.put("flag","success");
+            dataMap.put("data","秒杀成功");
+        }else{
+            dataMap.put("flag","fail");
+            dataMap.put("data","秒杀失败，请重新操作");
         }
     }
 
