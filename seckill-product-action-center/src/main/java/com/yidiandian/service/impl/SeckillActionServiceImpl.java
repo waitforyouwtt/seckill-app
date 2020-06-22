@@ -18,9 +18,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -49,6 +47,10 @@ public class SeckillActionServiceImpl implements SeckillActionService {
 
     //通过阻塞队列进行秒杀
     private BlockingQueue<QueueRequest> seckillQueue = new LinkedBlockingDeque<QueueRequest>();
+
+    private ExecutorService executorService = Executors.newCachedThreadPool();
+    private Map<Integer,Future> cacheSeckillResultMap = new HashMap<Integer,Future>();
+
 
     /**
      * 通过程序锁进行秒杀
@@ -233,6 +235,24 @@ public class SeckillActionServiceImpl implements SeckillActionService {
             releaseResult = RedisLockUtil.releaseDistributedLock(id+"",userId+"");
         }
         return ResponseResult.success(dataMap);
+    }
+
+    /**
+     * 异步秒杀，获取结果
+     *
+     * @param userId
+     * @param id
+     */
+    @Override
+    public ResponseResult seckillFuture(int userId, int id) throws ExecutionException, InterruptedException {
+        Future<Integer> resultFuture = executorService.submit( new SeckillFuture( userId, id ) );
+        cacheSeckillResultMap.put( userId, resultFuture );
+
+        if (resultFuture.get() == 0) {
+            return ResponseResult.success( "用户" + userId + "秒杀成功" );
+        } else {
+            return ResponseResult.error( "用户" + userId + "秒杀失败" );
+        }
     }
 
     private void processSeckill(int id,Map<String,String> dataMap){

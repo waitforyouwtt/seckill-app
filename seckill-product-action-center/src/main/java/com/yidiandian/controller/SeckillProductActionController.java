@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * @Author: 凤凰[小哥哥]
  * @Date: 2020/5/30 11:55
@@ -60,6 +62,12 @@ public class SeckillProductActionController {
     @PostMapping("/redisDistributeLock")
     public ResponseResult redisDistributeLock(@RequestParam("userId") int userId,@RequestParam("id") int id){
        return seckillActionService.redisDistributeLock(userId,id);
+    }
+
+    @ApiOperation( value = "异步秒杀，获取结果实现进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping("/seckillFuture")
+    public ResponseResult seckillFuture(@RequestParam("userId") int userId,@RequestParam("id") int id) throws ExecutionException, InterruptedException {
+       return seckillActionService.seckillFuture(userId,id);
     }
 
 }

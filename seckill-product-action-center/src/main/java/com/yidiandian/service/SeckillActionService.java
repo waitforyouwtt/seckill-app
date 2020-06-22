@@ -2,6 +2,8 @@ package com.yidiandian.service;
 
 import entity.ResponseResult;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * @Author: 凤凰[小哥哥]
  * @Date: 2020/5/30 11:05
@@ -67,4 +69,11 @@ public interface SeckillActionService {
      * @return
      */
     ResponseResult redisDistributeLock(int userId, int id);
+
+    /**
+     *异步秒杀，获取结果
+     * @param userId
+     * @param id
+     */
+    ResponseResult seckillFuture(int userId,int id) throws ExecutionException, InterruptedException;
 }
