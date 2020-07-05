@@ -1,6 +1,7 @@
 package com.yidiandian.controller;
 
 import com.yidiandian.service.SeckillActionService;
+import com.yidiandian.service.SeckillActionService2;
 import entity.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class SeckillProductActionController {
 
     @Autowired
     SeckillActionService seckillActionService;
+
+    @Autowired
+    SeckillActionService2 seckillActionService2;
 
     @ApiOperation( value = "通过程序锁进行秒杀操作",notes = "",tags = {"商品秒杀操作"})
     @PostMapping("/procedureLockBy")
@@ -68,6 +72,12 @@ public class SeckillProductActionController {
     @PostMapping("/seckillFuture")
     public ResponseResult seckillFuture(@RequestParam("userId") int userId,@RequestParam("id") int id) throws ExecutionException, InterruptedException {
        return seckillActionService.seckillFuture(userId,id);
+    }
+
+    @ApiOperation( value = "分布式锁整合future异步封装秒杀操作",notes = "",tags = {"商品秒杀操作"})
+    @PostMapping(value = "seckillIntegrByDistrAndFuture")
+    public ResponseResult seckillIntegrByDistrAndFuture(int userId, int id){
+       return ResponseResult.success( seckillActionService2.seckillIntegrByDistrAndFuture(userId,id));
     }
 
 }

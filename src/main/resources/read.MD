@@ -42,7 +42,9 @@
   5-2.easyCode自动生成代码：  
   5-3.采用聚合查询接口，根据身份证获取用户地址：https://www.juhe.cn/ucenter/account [收费，暂未开通]
   
+解决方案：cmd->     cd c:\\tools\\redistool +enter    
 
+redis-server.exe redis.windows.conf +enter
 ##
 
 
