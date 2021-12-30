@@ -6,5 +6,7 @@ package com.yidiandian.service;
  * @Version: 1.0
  * @Email: 15290810931@163.com
  */
-public class SeckillIntegrationByService {
+public interface SeckillIntegrationByService {
+
+    void seckillIntegrByDistrAndFutrure(Integer userId,Integer id);
 }
